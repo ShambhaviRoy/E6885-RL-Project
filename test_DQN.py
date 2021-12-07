@@ -25,6 +25,5 @@ if __name__ == "__main__":
         if dones:
           print('info',info)
           print('reward: ',total_reward)
-          env.set_save_replay(True)
           break
     env.close()
