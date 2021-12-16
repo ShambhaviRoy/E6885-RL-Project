@@ -1,6 +1,7 @@
 import gym
 from gym import error, spaces, utils, logger
 from gym.utils import seeding
+from numpy.core.numeric import base_repr
 import cityflow
 import numpy as np
 import os
@@ -50,21 +51,21 @@ class CityFlow_1x1_LowTraffic(gym.Env):
         self.cityflow = cityflow.Engine(os.path.join(self.config_dir, "config.json"), thread_num=1)
         self.intersection_ids = \
             ["intersection_1_1",
-             "intersettion_2_1",
-             "intersettion_3_1",
-             "intersettion_4_1",
-             "intersettion_1_2",
-             "intersettion_2_2",
-             "intersettion_3_2",
-             "intersettion_4_2",
-             "intersettion_1_3",
-             "intersettion_2_3",
-             "intersettion_3_3",
-             "intersettion_4_3",
-             "intersettion_1_4",
-             "intersettion_2_4",
-             "intersettion_3_4",
-             "intersettion_4_4"]
+             "intersection_2_1",
+             "intersection_3_1",
+             "intersection_4_1",
+             "intersection_1_2",
+             "intersection_2_2",
+             "intersection_3_2",
+             "intersection_4_2",
+             "intersection_1_3",
+             "intersection_2_3",
+             "intersection_3_3",
+             "intersection_4_3",
+             "intersection_1_4",
+             "intersection_2_4",
+             "intersection_3_4",
+             "intersection_4_4"]
 
         self.sec_per_step = 1.0
 
@@ -201,6 +202,7 @@ class CityFlow_1x1_LowTraffic(gym.Env):
              "road_5_4_2_1",
              "road_4_5_3_0",
              "road_4_5_3_1",]
+        
         self.mode = "start_waiting"
         assert self.mode == "all_all" or self.mode == "start_waiting", "mode must be one of 'all_all' or 'start_waiting'"
         """
@@ -236,10 +238,23 @@ class CityFlow_1x1_LowTraffic(gym.Env):
         we use a string of 16 numbers as follows: 0000000000000007. We then convert this to an array
         With this series of actions, we use a for loop in the step function along with cityflow.set_tl_phase, which takes intersections[i] and actions[i] as arguments.
         After the for loop is over, we run self.cityflow.next_step()
+        8 instead of 9 because apparently 9 is out of range for something
         '''
-        self.cityflow.set_tl_phase(self.intersection_id, action)
+        actions = np.base_repr(action,8)
+        action_list = list(actions)
+        pad = len(self.intersection_ids) - len(action_list)
+        actions = np,base_repr(action, 8, padding=pad)
+        #print('1: ', actions[1])
+        action_list = list(actions[1])
+        #print('Here: ',action)
+        #print('There: ', action_list)
+        #print('One more: ',int(action_list[0]))
+        for i in range(len(action_list)):
+            #print(self.intersection_ids[i])
+            #print(int(action_list[i]))
+            self.cityflow.set_tl_phase(self.intersection_ids[i], int(action_list[i]))
         self.cityflow.next_step()
-        
+        #print('Step')
         state = self._get_state()
         reward = self._get_reward()
 
