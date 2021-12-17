@@ -1,11 +1,11 @@
 {
 	"interval": 1.0,
 	"seed": 1,
-	"dir": "/mnt/gym_cityflow/gym_cityflow/envs/1x1_config/",
-	"roadnetFile": "roadnet.json",
-	"flowFile": "flow.json",
+	"dir": "/content/drive/MyDrive/gym_cityflow-master/gym_cityflow/envs/1x1_config/",
+	"roadnetFile": "roadnet16.json",
+	"flowFile": "flow16.json",
 	"rlTrafficLight": true,
 	"saveReplay": true,
-	"roadnetLogFile": "roadnetlog.json",
-	"replayLogFile": "replay.txt"
+	"roadnetLogFile": "roadnet16log.json",
+	"replayLogFile": "replay16.txt"
 }
