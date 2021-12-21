@@ -4,7 +4,6 @@ import numpy as np
 from stable_baselines.deepq.policies import MlpPolicy
 from stable_baselines.common.vec_env import DummyVecEnv
 from stable_baselines import DQN
-from colabgymrender.recorder import Recorder
 
 if __name__ == "__main__":
     env = gym.make('gym_cityflow:CityFlow-1x1-LowTraffic-v0')
@@ -23,7 +22,7 @@ if __name__ == "__main__":
         #print(obs,rewards,dones,info)
         total_reward +=rewards
         if dones:
-          print('info',info)
+          time = env.results()
+          print('Results: ', time)
           print('reward: ',total_reward)
           break
-    env.close()

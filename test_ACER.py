@@ -4,7 +4,7 @@ import numpy as np
 from stable_baselines.deepq.policies import MlpPolicy
 #from stable_baselines.common.policies import MlpPolicy
 from stable_baselines.common.vec_env import DummyVecEnv, VecNormalize
-from stable_baselines import  A2C, ACKTR
+from stable_baselines import  A2C, ACKTR, ACER
 #from stable_baselines.common import make_vec_env
 #tried both ACER and ACKTR, poor performance. DQN was best
 if __name__ == "__main__":
@@ -12,13 +12,13 @@ if __name__ == "__main__":
     steps_per_episode = env.steps_per_episode
     #env = DummyVecEnv([lambda: env])
     #env = VecNormalize(DummyVecEnv([lambda: env]), norm_obs=True, norm_reward=False,clip_obs=10.)
-    model = ACKTR("MlpPolicy", VecNormalize(DummyVecEnv([lambda: env]), norm_obs=True, norm_reward=False,clip_obs=10.), verbose=1)
+    model = ACER("MlpPolicy", VecNormalize(DummyVecEnv([lambda: env]), norm_obs=True, norm_reward=False,clip_obs=10.), verbose=1)
     log_interval = 10
     total_episodes = 100
     model.learn(total_timesteps=steps_per_episode*total_episodes, log_interval=log_interval)
     model.save("acer_1x1")
 
-    model = ACKTR.load("a2c_1x1", env=VecNormalize(DummyVecEnv([lambda: env]), norm_obs=True, norm_reward=False,clip_obs=10.))
+    model = ACER.load("a2c_1x1", env=VecNormalize(DummyVecEnv([lambda: env]), norm_obs=True, norm_reward=False,clip_obs=10.))
     obs = env.reset()
     total_reward = 0
     while True:
